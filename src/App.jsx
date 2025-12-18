@@ -153,7 +153,9 @@ export default function App() {
         </div>
 
         <div className="lg:col-span-3 h-full">
-          <InfoPanel />
+          <InfoPanel 
+            algorithm={ALGORITHMS[selectedAlgo]} 
+          />
         </div>
       </div>
     </div>
