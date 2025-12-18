@@ -59,6 +59,8 @@ export default function App() {
   };
 
   const [pivotIndex, setPivotIndex] = useState(null);
+  const [mergeRange, setMergeRange] = useState(null);
+  const [heapBoundary, setHeapBoundary] = useState(null);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -67,6 +69,8 @@ export default function App() {
       setIsPlaying(false);
       setActiveIndices([]);
       setPivotIndex(null);
+      setMergeRange(null);
+      setHeapBoundary(null);
       return;
     }
 
@@ -101,6 +105,26 @@ export default function App() {
 
     if (step.type === "pivot-clear") {
       setPivotIndex(null);
+    }
+
+    if (step.type === "range") {
+      setMergeRange({
+        left: step.left,
+        mid: step.mid,
+        right: step.right
+      });
+    }
+
+    if (step.type === "range-clear") {
+      setMergeRange(null);
+    }
+
+    if (step.type === "heap-bound") {
+      setHeapBoundary(step.index);
+    }
+
+    if (step.type === "heap-bound-clear") {
+      setHeapBoundary(null);
     }
 
     timeoutRef.current = setTimeout(() => {
@@ -168,6 +192,8 @@ export default function App() {
             array={array} 
             activeIndices={activeIndices}
             pivotIndex={pivotIndex}
+            mergeRange={mergeRange}
+            heapBoundary={heapBoundary}
           />
         </div>
 

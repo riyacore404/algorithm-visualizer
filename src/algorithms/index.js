@@ -3,6 +3,7 @@ import { SelectionSort } from "./SelectionSort";
 import { InsertionSort } from "./InsertionSort";
 import { MergeSort } from "./MergeSort";
 import { QuickSort } from "./QuickSort";
+import { HeapSort } from "./HeapSort";
 
 export const ALGORITHMS = {
   bubble: {
@@ -62,6 +63,18 @@ export const ALGORITHMS = {
       worst: "O(n²)"
     },
     space: "O(log n)",
+    stable: false,
+    inPlace: true
+  },
+  heap: {
+    name: "Heap Sort",
+    fn: HeapSort,
+    time: {
+      best: "O(n log n)",
+      average: "O(n log n)",
+      worst: "O(n log n)"
+    },
+    space: "O(1)",
     stable: false,
     inPlace: true
   }

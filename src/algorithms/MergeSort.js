@@ -12,6 +12,13 @@ export function MergeSort(array) {
   }
 
   function merge(l, m, r) {
+    steps.push({
+      type: "range",
+      left: l,
+      mid: m,
+      right: r
+    });
+
     const left = arr.slice(l, m + 1);
     const right = arr.slice(m + 1, r + 1);
 
@@ -43,6 +50,9 @@ export function MergeSort(array) {
       steps.push({ type: "overwrite", index: k, value: right[j] });
       j++; k++;
     }
+    steps.push({
+      type: "range-clear"
+    });
   }
 
   mergeSort(0, arr.length - 1);

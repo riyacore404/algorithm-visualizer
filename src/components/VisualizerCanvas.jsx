@@ -1,8 +1,10 @@
 import React from 'react'
 
-export default function VisualizerCanvas ({ array, activeIndices, pivotIndex = null, mergeRange = null }) {
+export default function VisualizerCanvas ({ array, activeIndices, pivotIndex = null, mergeRange = null, heapBoundary = null }) {
   const getBarColor = (idx) => {
     if (pivotIndex === idx) return "bg-yellow-400";
+
+    if (heapBoundary !== null && idx >= heapBoundary) return "bg-emerald-400";
 
     if (mergeRange) {
       if (idx >= mergeRange.left && idx <= mergeRange.mid)
