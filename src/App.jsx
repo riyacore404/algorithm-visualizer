@@ -3,6 +3,7 @@ import ControlPanel from "./components/ControlPanel";
 import VisualizerCanvas from "./components/VisualizerCanvas";
 import InfoPanel from "./components/InfoPanel";
 import { useState, useEffect, useRef } from "react";
+import { bubbleSortSteps } from "./algorithms/BubbleSort"
 
 export default function App() {
   const timeoutRef = useRef(null);
@@ -26,7 +27,7 @@ export default function App() {
     setIsPlaying(false);
   };
 
-
+  const [activeIndices, setActiveIndices] = useState([]);
   const [animationSteps, setAnimationSteps] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -40,6 +41,10 @@ export default function App() {
 
     const step = animationSteps[currentStep];
 
+    if (step.type === "compare") {
+      setActiveIndices(step.indices);
+    }
+
     if (step.type === "swap") {
       setArray((prev) => {
         const newArr = [...prev];
@@ -52,6 +57,10 @@ export default function App() {
     timeoutRef.current = setTimeout(() => {
       setCurrentStep((prev) => prev + 1);
     }, speed);
+
+    if (currentStep >= animationSteps.length - 1) {
+      setActiveIndices([]);
+    }
   };
 
   useEffect(() => {
@@ -64,20 +73,14 @@ export default function App() {
     };
   }, [currentStep, isPlaying, speed]);
 
-  const testSteps = () => {
-    setAnimationSteps([
-      { type: "swap", indices: [0, 1] },
-      { type: "swap", indices: [1, 2] },
-      { type: "swap", indices: [2, 3] },
-    ]);
+  const play = () => {
+    if (isPlaying) return;
+
+    const steps = bubbleSortSteps(array);
+
+    setAnimationSteps(steps);
     setCurrentStep(0);
     setIsPlaying(true);
-  };
-
-  const play = () => {
-    if (!isPlaying) {
-      testSteps();
-    }
   };
   const pause = () => setIsPlaying(false);
 
@@ -93,11 +96,16 @@ export default function App() {
             generateArray={generateArray}
             play={play}
             pause={pause}
+            speed={speed}
+            setSpeed={setSpeed}
           />
         </div>
 
         <div className="lg:col-span-6 h-full">
-          <VisualizerCanvas array={array} />
+          <VisualizerCanvas 
+            array={array} 
+            activeIndices={activeIndices}
+          />
         </div>
 
         <div className="lg:col-span-3 h-full">

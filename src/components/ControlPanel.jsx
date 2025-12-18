@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ControlPanel ({ arraySize, setArraySize, generateArray, play, pause }) {
+export default function ControlPanel ({ arraySize, setArraySize, generateArray, play, pause, speed, setSpeed }) {
   return (
     <div className="h-full bg-slate-800 rounded-xl p-4 text-center">
       <h2 className="text-xl font-semibold"> Controls </h2>
@@ -44,6 +44,22 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
         >
           Pause
         </button>
+      </div>
+
+      <div>
+        <label className="block mb-2 text-sm">
+          Speed: <span className="font-bold"> { speed } ms</span>
+        </label> 
+
+        <input
+          type="range"
+          min="50"
+          max="1000"
+          step="50"
+          value={speed}
+          onChange={(e) => setSpeed(Number(e.target.value))}
+          className="w-full"
+        />
       </div>
    </div>
   );
