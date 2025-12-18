@@ -21,6 +21,7 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
           <option value="merge">Merge Sort</option>
           <option value="quick">Quick Sort</option>
           <option value="heap">Heap Sort</option>
+          <option value="radix">Radix Sort</option>
         </select>
 
         <input

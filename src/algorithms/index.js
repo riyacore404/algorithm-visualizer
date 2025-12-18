@@ -4,6 +4,7 @@ import { InsertionSort } from "./InsertionSort";
 import { MergeSort } from "./MergeSort";
 import { QuickSort } from "./QuickSort";
 import { HeapSort } from "./HeapSort";
+import { RadixSort } from "./RadixSort";
 
 export const ALGORITHMS = {
   bubble: {
@@ -77,5 +78,17 @@ export const ALGORITHMS = {
     space: "O(1)",
     stable: false,
     inPlace: true
+  },
+  radix: {
+    name: "Radix Sort",
+    fn: RadixSort,
+    time: {
+      best: "O(n * k)",
+      average: "O(n * k)",
+      worst: "O(n * k)"
+    },
+    space: "O(n + k)", 
+    stable: true,      
+    inPlace: false
   }
 };

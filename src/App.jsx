@@ -71,6 +71,7 @@ export default function App() {
       setPivotIndex(null);
       setMergeRange(null);
       setHeapBoundary(null);
+      setActiveIndices([]);
       return;
     }
 
@@ -125,6 +126,18 @@ export default function App() {
 
     if (step.type === "heap-bound-clear") {
       setHeapBoundary(null);
+    }
+
+    if (step.type === "overwrite") {
+      setArray((prev) => {
+        const newArr = [...prev];
+        newArr[step.index] = step.value;
+        return newArr;
+      });
+    }
+
+    if (step.type === "highlight") {
+      setActiveIndices(step.indices);
     }
 
     timeoutRef.current = setTimeout(() => {
