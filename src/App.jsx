@@ -30,6 +30,9 @@ export default function App() {
     // Stop animation engine
     setIsPlaying(false);
 
+    // Resume animation engine
+    setHasStarted(false);
+
     // Reset animation state
     setAnimationSteps([]);
     setCurrentStep(0);
@@ -43,6 +46,7 @@ export default function App() {
   const [animationSteps, setAnimationSteps] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const [speed, setSpeed] = useState(300);
 
   const [selectedAlgo, setSelectedAlgo] = useState("bubble");
@@ -85,7 +89,11 @@ export default function App() {
       setCurrentStep((prev) => prev + 1);
     }, speed);
 
-    return () => clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [currentStep, isPlaying, speed, animationSteps]);
 
   const play = () => {
@@ -96,14 +104,26 @@ export default function App() {
       return;
     }
 
+    if (hasStarted && currentStep < animationSteps.length) {
+      setIsPlaying(true);
+      return;
+    }
+
     const algo = ALGORITHMS[selectedAlgo];
     const steps = algo.fn(array);
 
     setAnimationSteps(steps);
     setCurrentStep(0);
+    setHasStarted(true);
     setIsPlaying(true);
   };
-  const pause = () => setIsPlaying(false);
+  
+  const pause = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsPlaying(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
