@@ -58,6 +58,7 @@ export default function App() {
     return true;
   };
 
+  const [pivotIndex, setPivotIndex] = useState(null);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -65,6 +66,7 @@ export default function App() {
     if (currentStep >= animationSteps.length) {
       setIsPlaying(false);
       setActiveIndices([]);
+      setPivotIndex(null);
       return;
     }
 
@@ -91,6 +93,14 @@ export default function App() {
         newArr[step.index] = step.value;
         return newArr;
       });
+    }
+    
+    if (step.type === "pivot") {
+      setPivotIndex(step.index);
+    }
+
+    if (step.type === "pivot-clear") {
+      setPivotIndex(null);
     }
 
     timeoutRef.current = setTimeout(() => {
@@ -157,6 +167,7 @@ export default function App() {
           <VisualizerCanvas 
             array={array} 
             activeIndices={activeIndices}
+            pivotIndex={pivotIndex}
           />
         </div>
 
