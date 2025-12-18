@@ -22,6 +22,7 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
           <option value="quick">Quick Sort</option>
           <option value="heap">Heap Sort</option>
           <option value="radix">Radix Sort</option>
+          <option value="bucket">Bucket Sort</option>
         </select>
 
         <input

@@ -5,6 +5,7 @@ import { MergeSort } from "./MergeSort";
 import { QuickSort } from "./QuickSort";
 import { HeapSort } from "./HeapSort";
 import { RadixSort } from "./RadixSort";
+import { BucketSort } from "./BucketSort";
 
 export const ALGORITHMS = {
   bubble: {
@@ -89,6 +90,18 @@ export const ALGORITHMS = {
     },
     space: "O(n + k)", 
     stable: true,      
+    inPlace: false
+  },
+  bucket: {
+    name: "Bucket Sort",
+    fn: BucketSort,
+    time: {
+      best: "O(n * k)",
+      average: "O(n * k)",
+      worst: "O(n * k)"
+    },
+    space: "O(n + k)",
+    stable: true,
     inPlace: false
   }
 };
