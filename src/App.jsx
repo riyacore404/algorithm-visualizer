@@ -85,6 +85,14 @@ export default function App() {
       setActiveIndices(step.indices);
     }
 
+    if (step.type === "overwrite") {
+      setArray((prev) => {
+        const newArr = [...prev];
+        newArr[step.index] = step.value;
+        return newArr;
+      });
+    }
+
     timeoutRef.current = setTimeout(() => {
       setCurrentStep((prev) => prev + 1);
     }, speed);
