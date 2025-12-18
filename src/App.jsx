@@ -155,6 +155,8 @@ export default function App() {
         <div className="lg:col-span-3 h-full">
           <InfoPanel 
             algorithm={ALGORITHMS[selectedAlgo]} 
+            stepCount={animationSteps.length}
+            speed={speed}
           />
         </div>
       </div>

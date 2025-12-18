@@ -16,6 +16,8 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
           className="w-full p-2 bg-slate-800 rounded border border-slate-700"
         >
           <option value="bubble">Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="insertion">Insertion Sort</option>
         </select>
 
         <input

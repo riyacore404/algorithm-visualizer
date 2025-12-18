@@ -1,6 +1,14 @@
 import React from 'react'
 
-const InfoPanel = ({ algorithm }) => {
+const InfoPanel = ({ algorithm, stepCount, speed }) => {
+  const estimateRuntime = (steps, speed) => {
+    if (!steps || steps === 0) return "—";
+
+    const ms = steps * speed;
+    if (ms < 1000) return `${ms} ms`;
+    return `${(ms / 1000).toFixed(2)} s`;
+  };
+
   return (
     <div className="h-full bg-slate-800 rounded-xl p-4 text-center">
       <h2 className="text-xl font-semibold">
@@ -41,6 +49,13 @@ const InfoPanel = ({ algorithm }) => {
           </span>
         )}
       </div>
+
+      <p className="text-sm">
+        Estimated Runtime:
+        <span className="text-pink-400 ml-2">
+          {estimateRuntime(stepCount, speed)}
+        </span>
+      </p>
     </div>
   )
 }
