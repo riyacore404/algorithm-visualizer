@@ -1,8 +1,8 @@
-export const bubbleSortSteps = (arr) => {
+export const BubbleSort = (arr) => {
   const steps = [];
   const a = [...arr];
-
   const size = a.length;
+
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size - i - 1; j++) {
       // to compare successive indices

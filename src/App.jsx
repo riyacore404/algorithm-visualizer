@@ -3,7 +3,8 @@ import ControlPanel from "./components/ControlPanel";
 import VisualizerCanvas from "./components/VisualizerCanvas";
 import InfoPanel from "./components/InfoPanel";
 import { useState, useEffect, useRef } from "react";
-import { bubbleSortSteps } from "./algorithms/BubbleSort"
+
+import { ALGORITHMS } from "./algorithms";
 
 export default function App() {
   const timeoutRef = useRef(null);
@@ -21,10 +22,21 @@ export default function App() {
 
   // to generate a random array of the set size i.e. no. of bars
   const generateArray = (size = arraySize) => {
-    setArray(createRandomArray(size));
+    // Kill running timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Stop animation engine
+    setIsPlaying(false);
+
+    // Reset animation state
     setAnimationSteps([]);
     setCurrentStep(0);
-    setIsPlaying(false);
+    setActiveIndices([]);
+
+    // Generate fresh array
+    setArray(createRandomArray(size));
   };
 
   const [activeIndices, setActiveIndices] = useState([]);
@@ -33,9 +45,22 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(300);
 
-  const runAnimation = () => {
-    if (!isPlaying || currentStep >= animationSteps.length) {
+  const [selectedAlgo, setSelectedAlgo] = useState("bubble");
+
+  const isSorted = (arr) => {
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] < arr[i - 1]) return false;
+    }
+    return true;
+  };
+
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    if (currentStep >= animationSteps.length) {
       setIsPlaying(false);
+      setActiveIndices([]);
       return;
     }
 
@@ -52,31 +77,27 @@ export default function App() {
         [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
         return newArr;
       });
+
+      setActiveIndices(step.indices);
     }
 
     timeoutRef.current = setTimeout(() => {
       setCurrentStep((prev) => prev + 1);
     }, speed);
 
-    if (currentStep >= animationSteps.length - 1) {
-      setActiveIndices([]);
-    }
-  };
-
-  useEffect(() => {
-    runAnimation();
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [currentStep, isPlaying, speed]);
+    return () => clearTimeout(timeoutRef.current);
+  }, [currentStep, isPlaying, speed, animationSteps]);
 
   const play = () => {
     if (isPlaying) return;
 
-    const steps = bubbleSortSteps(array);
+    if (isSorted(array)) {
+      console.log("Array already sorted");
+      return;
+    }
+
+    const algo = ALGORITHMS[selectedAlgo];
+    const steps = algo.fn(array);
 
     setAnimationSteps(steps);
     setCurrentStep(0);
@@ -98,6 +119,9 @@ export default function App() {
             pause={pause}
             speed={speed}
             setSpeed={setSpeed}
+            selectedAlgo = {selectedAlgo}
+            setSelectedAlgo = {setSelectedAlgo}
+            isPlaying = {isPlaying}
           />
         </div>
 

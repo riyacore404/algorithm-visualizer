@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ControlPanel ({ arraySize, setArraySize, generateArray, play, pause, speed, setSpeed }) {
+export default function ControlPanel ({ arraySize, setArraySize, generateArray, play, pause, speed, setSpeed, selectedAlgo, setSelectedAlgo, isPlaying }) {
   return (
     <div className="h-full bg-slate-800 rounded-xl p-4 text-center">
       <h2 className="text-xl font-semibold"> Controls </h2>
@@ -9,6 +9,14 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
         <label className="block mb-2 text-sm">
           Array Size: <span className="font-bold"> { arraySize } </span>
         </label>
+
+        <select
+          value={selectedAlgo}
+          onChange={(e) => setSelectedAlgo(e.target.value)}
+          className="w-full p-2 bg-slate-800 rounded border border-slate-700"
+        >
+          <option value="bubble">Bubble Sort</option>
+        </select>
 
         <input
           type="range"
@@ -33,6 +41,7 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
       <div className="flex gap-2">
         <button
           onClick={play}
+          disabled={isPlaying}
           className="flex-1 bg-green-500 hover:bg-green-600 rounded-lg py-2"
         >
           Play
@@ -53,7 +62,7 @@ export default function ControlPanel ({ arraySize, setArraySize, generateArray, 
 
         <input
           type="range"
-          min="50"
+          min="1"
           max="1000"
           step="50"
           value={speed}
